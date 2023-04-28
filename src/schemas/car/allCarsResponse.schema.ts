@@ -14,7 +14,7 @@ export const allCarsResponseSchema: SchemaOf<ICarResponse[]> = yup.array(
     fipe: yup.number().required(),
     price: yup.number().required(),
     color: yup.string().required(),
-    km: yup.number().required(),
+    km: yup.string().required(),
     fuel: yup.string().required(),
     year: yup.string().required(),
     model: yup.string().required(),

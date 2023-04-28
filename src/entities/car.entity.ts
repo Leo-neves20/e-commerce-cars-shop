@@ -27,7 +27,7 @@ export class Car {
   fuel: string;
 
   @Column({ type: "decimal", precision: 3 })
-  km: number;
+  km: string;
 
   @Column({ length: 20 })
   color: string;

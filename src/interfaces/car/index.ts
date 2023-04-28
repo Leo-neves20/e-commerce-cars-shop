@@ -3,7 +3,7 @@ export interface ICarRequest {
   model: string;
   year: string;
   fuel: string;
-  km: number;
+  km: string;
   color: string;
   price: number;
   fipe: number;
@@ -26,7 +26,7 @@ export interface ICarUpdate {
   model?: string;
   year?: string;
   fuel?: string;
-  km?: number;
+  km?: string;
   color?: string;
   price?: number;
   fipe?: number;
