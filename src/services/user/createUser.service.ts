@@ -23,10 +23,10 @@ export const createUserService = async (
     throw new AppError("CPF already registered", 409);
   }
 
-  let userUrl = ""
+  let userUrl = "https://encurtador.com.br/dmwCE"
 
   if(!userData.image_url){
-    userUrl = "https://encurtador.com.br/dmwCE"
+    userUrl = ""
   }else{
     userUrl = userData.image_url
   }
@@ -74,8 +74,6 @@ export const createUserService = async (
   });
 
   await addressRepo.save(newAddress);
-
-  console.log(newUser, "========================")
 
   const clientWithoutPassword =
     await userCreateAndUpdateResponseSchema.validate(
