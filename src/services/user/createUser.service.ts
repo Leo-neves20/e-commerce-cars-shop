@@ -23,10 +23,10 @@ export const createUserService = async (
     throw new AppError("CPF already registered", 409);
   }
 
-  let userUrl = "https://encurtador.com.br/dmwCE"
+  let userUrl = ""
 
   if(!userData.image_url){
-    userUrl = ""
+    userUrl = "https://encurtador.com.br/dmwCE"
   }else{
     userUrl = userData.image_url
   }
