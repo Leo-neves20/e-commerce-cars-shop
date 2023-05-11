@@ -7,44 +7,48 @@ import { brandRepo, carRepo, userRepo } from "../../utils/repositories";
 export const createCarService = async (
   carData: ICarRequest,
   userId: string,
+  isGoodDeal: boolean
 ) => {
+  if (!carData.km) {
+    carData.km = 0;
+  }
 
   const userData = await userRepo.findOneBy({
     id: userId,
   });
 
-  if(!userData){
-    throw new AppError("user not found", 404)
+  if (!userData) {
+    throw new AppError("user not found", 404);
   }
 
   const getBrand = await brandRepo.findOneBy({ name: carData.brand });
 
-  let brand: IBrandResponse | null = getBrand
+  let brand: IBrandResponse | null = getBrand;
 
-  if(!brand){
+  if (!brand) {
+    const newBrand = brandRepo.create({ name: carData.brand });
+    await brandRepo.save(newBrand);
 
-    const newBrand = brandRepo.create({name: carData.brand})
-    await brandRepo.save(newBrand)
-
-    brand = newBrand
-
+    brand = newBrand;
   }
 
-  let carImage = ""
+  let carImage = "";
 
-  if(!carData.cover_image){
-    carImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcwHeo1aZFE29ryE5ZNrOA1SvJ0Xe_wXt5FnqqvI68h1m10xjF7fRHRoWoO5H2fX7xPPw&usqp=CAU"
-  }else{
-    carImage = carData.cover_image
+  if (!carData.cover_image) {
+    carImage =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcwHeo1aZFE29ryE5ZNrOA1SvJ0Xe_wXt5FnqqvI68h1m10xjF7fRHRoWoO5H2fX7xPPw&usqp=CAU";
+  } else {
+    carImage = carData.cover_image;
   }
 
   const car = {
     ...carData,
     brand_car: brand,
-    user: userData
+    user: userData,
+    is_good_price: isGoodDeal,
   };
 
-  const newCar = carRepo.create({...car, cover_image: carImage});
+  const newCar = carRepo.create({ ...car, cover_image: carImage });
   await carRepo.save(newCar);
 
   const returnCar = await carResponseSchema.validate(newCar, {
@@ -52,5 +56,4 @@ export const createCarService = async (
   });
 
   return returnCar;
-
 };

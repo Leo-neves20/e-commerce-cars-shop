@@ -7,10 +7,16 @@ export const verifyGoodDealMiddleware = (
 ) => {
   const car = req.body;
   const diference = car.fipe - Number(car.price);
-  if (diference >= (car.fipe / 100) * 5) {
+
+  console.log("Fipeee", car.fipe);
+  console.log("Priceeee", car.price);
+  console.log("Diferenceeeee", diference);
+
+  if (diference >= car.fipe * 0.05) {
     req.isGoodDeal = true;
   } else {
     req.isGoodDeal = false;
   }
+
   return next();
 };
