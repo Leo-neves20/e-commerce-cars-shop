@@ -9,13 +9,12 @@ export const loginService = async ({
   email,
   password,
 }: IUserLogin): Promise<{ token: string }> => {
-  
   const user = await userRepo.findOneBy({
     email: email,
   });
 
   if (!user) {
-    throw new AppError("User not found!", 404);
+    throw new AppError("Invalid User or password!", 404);
   }
 
   const passwordCheck = await compare(password, user?.password as string);
@@ -32,7 +31,7 @@ export const loginService = async ({
     process.env.SECRET_KEY as string,
     {
       subject: String(user.id),
-      expiresIn: process.env.EXPIRES_IN
+      expiresIn: process.env.EXPIRES_IN,
     }
   );
 
